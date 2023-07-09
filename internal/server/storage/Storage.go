@@ -2,6 +2,7 @@ package storage
 
 import (
 	"errors"
+
 	"github.com/oriolus/notprometheus/internal/metric"
 )
 

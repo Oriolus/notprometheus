@@ -9,10 +9,11 @@ const (
 )
 
 func GetMetricType(typ string) (Type, error) {
-	if typ == TypeGauge {
+	innerType := Type(typ)
+	if innerType == TypeGauge {
 		return TypeGauge, nil
 	}
-	if typ == TypeCounter {
+	if innerType == TypeCounter {
 		return TypeCounter, nil
 	}
 

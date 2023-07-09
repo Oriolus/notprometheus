@@ -3,13 +3,13 @@ package handler
 import (
 	"errors"
 	"fmt"
+	"github.com/oriolus/notprometheus/internal/server"
+	"github.com/oriolus/notprometheus/internal/server/storage"
 	"net/http"
 	"strconv"
 	"strings"
 
 	"github.com/oriolus/notprometheus/internal/metric"
-	"github.com/oriolus/notprometheus/internal/metric/server"
-	"github.com/oriolus/notprometheus/internal/metric/storage"
 )
 
 var (
