@@ -7,8 +7,16 @@ type counter struct {
 	value int64
 }
 
-func NewCounter(name string) Counter {
-	return &counter{name: name}
+func NewCounter(name string) (Counter, error) {
+	if name == "" {
+		return nil, EmptyNameError
+	}
+
+	return &counter{name: name, value: 1}, nil
+}
+
+func (c *counter) Inc() {
+	c.value++
 }
 
 func (c *counter) Value() int64 {

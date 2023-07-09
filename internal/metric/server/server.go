@@ -9,3 +9,7 @@ type Server struct {
 func NewServer(storage storage.Storage) *Server {
 	return &Server{storage: storage}
 }
+
+func (s *Server) Storage() storage.Storage {
+	return s.storage
+}

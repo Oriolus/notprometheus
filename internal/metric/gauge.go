@@ -7,8 +7,16 @@ type gauge struct {
 	value float64
 }
 
-func NewGauge(name string) Gauge {
-	return &gauge{name: name}
+func NewGauge(name string, value float64) (Gauge, error) {
+	if name == "" {
+		return nil, EmptyNameError
+	}
+
+	return &gauge{name: name, value: value}, nil
+}
+
+func (g *gauge) Set(value float64) {
+	g.value = value
 }
 
 func (g *gauge) Value() float64 {

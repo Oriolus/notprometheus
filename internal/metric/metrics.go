@@ -1,15 +1,6 @@
 package metric
 
-import (
-	"errors"
-)
-
 type Type string
-
-var (
-	UnknownMetricTypeError = errors.New("unknown metric type error")
-	WrongMetricName        = errors.New("wrong metric name")
-)
 
 const (
 	TypeNone    = Type("none")
@@ -18,11 +9,10 @@ const (
 )
 
 func GetMetricType(typ string) (Type, error) {
-	innerType := Type(typ)
-	if innerType == TypeGauge {
+	if typ == TypeGauge {
 		return TypeGauge, nil
 	}
-	if innerType == TypeCounter {
+	if typ == TypeCounter {
 		return TypeCounter, nil
 	}
 
@@ -30,11 +20,13 @@ func GetMetricType(typ string) (Type, error) {
 }
 
 type Gauge interface {
+	Set(value float64)
 	Value() float64
 	Name() string
 }
 
 type Counter interface {
+	Inc()
 	Value() int64
 	Name() string
 }
