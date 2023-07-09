@@ -1,6 +1,8 @@
 package server
 
-import "github.com/oriolus/notprometheus/internal/metric/storage"
+import (
+	"github.com/oriolus/notprometheus/internal/server/storage"
+)
 
 type Server struct {
 	storage storage.Storage

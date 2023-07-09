@@ -2,8 +2,10 @@ package memory
 
 import (
 	"github.com/oriolus/notprometheus/internal/metric"
-	"github.com/oriolus/notprometheus/internal/metric/storage"
+	"github.com/oriolus/notprometheus/internal/server/storage"
 )
+
+var _ storage.Storage = (*MemStorage)(nil)
 
 // MemStorage warning! thread unsafe
 type MemStorage struct {

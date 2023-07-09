@@ -3,10 +3,9 @@ package main
 import (
 	"fmt"
 	"github.com/oriolus/notprometheus/internal/handler"
+	"github.com/oriolus/notprometheus/internal/server"
+	"github.com/oriolus/notprometheus/internal/server/storage/memory"
 	"net/http"
-
-	"github.com/oriolus/notprometheus/internal/metric/server"
-	"github.com/oriolus/notprometheus/internal/metric/storage/memory"
 )
 
 func main() {
