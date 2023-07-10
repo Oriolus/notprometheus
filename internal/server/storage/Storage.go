@@ -7,7 +7,7 @@ import (
 )
 
 var (
-	MetricNotFound = errors.New("metric not found")
+	MetricNotFoundError = errors.New("metric not found")
 )
 
 type Storage interface {

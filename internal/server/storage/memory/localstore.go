@@ -23,7 +23,7 @@ func NewMemStorage() storage.Storage {
 func (s *MemStorage) GetGauge(name string) (metric.Gauge, error) {
 	g, ok := s.gauges[name]
 	if !ok {
-		return nil, storage.MetricNotFound
+		return nil, storage.MetricNotFoundError
 	}
 	return g, nil
 }
@@ -40,7 +40,7 @@ func (s *MemStorage) SetGauge(gauge metric.Gauge) error {
 func (s *MemStorage) GetCounter(name string) (metric.Counter, error) {
 	cnt, ok := s.counters[name]
 	if !ok {
-		return nil, storage.MetricNotFound
+		return nil, storage.MetricNotFoundError
 	}
 	return cnt, nil
 }
@@ -51,5 +51,5 @@ func (s *MemStorage) SetCounter(counter metric.Counter) error {
 	}
 
 	s.counters[counter.Name()] = counter
-	return storage.MetricNotFound
+	return nil
 }

@@ -3,21 +3,24 @@ package handler
 import (
 	"errors"
 	"fmt"
-	"github.com/oriolus/notprometheus/internal/server"
-	"github.com/oriolus/notprometheus/internal/server/storage"
 	"net/http"
 	"strconv"
-	"strings"
 
+	"github.com/go-chi/chi/v5"
 	"github.com/oriolus/notprometheus/internal/metric"
+	"github.com/oriolus/notprometheus/internal/server"
+	"github.com/oriolus/notprometheus/internal/server/storage"
+)
+
+const (
+	URLParamMetricType = "metricType"
+	URLParamName       = "name"
+	URLParamValue      = "value"
 )
 
 var (
-	badUriFormatError    = errors.New("bad uri format")
 	notImplementedMetric = errors.New("unknown type of metric")
 )
-
-const methodName = "update"
 
 type UpdateHandler struct {
 	server *server.Server
@@ -28,25 +31,14 @@ func NewUpdateHandler(server *server.Server) *UpdateHandler {
 }
 
 func (s *UpdateHandler) ServeHTTP(res http.ResponseWriter, req *http.Request) {
-	if req.Method != http.MethodPost {
-		res.WriteHeader(http.StatusMethodNotAllowed)
-		return
-	}
-
-	method, typ, name, value, err := parseRequestURI(req.RequestURI)
-	if err != nil {
-		res.WriteHeader(http.StatusNotFound)
-		return
-	}
-
-	if method != methodName {
-		res.WriteHeader(http.StatusNotFound)
-		return
-	}
+	typ := chi.URLParam(req, URLParamMetricType)
+	name := chi.URLParam(req, URLParamName)
+	value := chi.URLParam(req, URLParamValue)
 
 	mType, err := metric.GetMetricType(typ)
 	if err != nil {
 		res.WriteHeader(http.StatusBadRequest)
+		res.Write([]byte(err.Error()))
 		return
 	}
 
@@ -54,6 +46,7 @@ func (s *UpdateHandler) ServeHTTP(res http.ResponseWriter, req *http.Request) {
 	if err != nil {
 		// todo: differentiate user errors and server errors
 		res.WriteHeader(http.StatusBadRequest)
+		res.Write([]byte(err.Error()))
 		return
 	}
 	res.WriteHeader(http.StatusOK)
@@ -76,11 +69,14 @@ func (s *UpdateHandler) processCounter(name string) error {
 		return nil
 	}
 
-	if !errors.Is(err, storage.MetricNotFound) {
+	if err != storage.MetricNotFoundError || !errors.Is(err, storage.MetricNotFoundError) {
 		return err
 	}
 
 	c, err = metric.NewCounter(name)
+	if err != nil {
+		return err
+	}
 	return s.server.Storage().SetCounter(c)
 }
 
@@ -96,7 +92,7 @@ func (s *UpdateHandler) processGauge(name, value string) error {
 		return nil
 	}
 
-	if !errors.Is(err, storage.MetricNotFound) {
+	if !errors.Is(err, storage.MetricNotFoundError) {
 		return err
 	}
 
@@ -105,19 +101,4 @@ func (s *UpdateHandler) processGauge(name, value string) error {
 		return err
 	}
 	return s.server.Storage().SetGauge(g)
-}
-
-func parseRequestURI(requestUri string) (method, typ, name, value string, err error) {
-	parts := strings.Split(requestUri, "/")
-	if len(parts) != 5 {
-		return "", "", "", "", badUriFormatError
-	}
-
-	method = parts[1]
-	typ = parts[2]
-	name = parts[3]
-	value = parts[4]
-	err = nil
-
-	return
 }
