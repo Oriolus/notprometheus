@@ -1,11 +1,15 @@
-package collector
+package http
 
 import (
 	"fmt"
 	"net/http"
 
+	"github.com/oriolus/notprometheus/internal/collector"
+	"github.com/oriolus/notprometheus/internal/collector/sender"
 	"github.com/oriolus/notprometheus/internal/metric"
 )
+
+var _ sender.MetricSender = (*Client)(nil)
 
 type Client struct {
 	client http.Client
@@ -14,7 +18,7 @@ type Client struct {
 
 func NewClient(base string) (*Client, error) {
 	if base == "" {
-		return nil, StringIsEmptyError
+		return nil, collector.StringIsEmptyError
 	}
 	return &Client{client: http.Client{}, base: base}, nil
 }

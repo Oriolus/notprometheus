@@ -3,6 +3,7 @@ package collector
 import (
 	"context"
 	"fmt"
+	"github.com/oriolus/notprometheus/internal/collector/sender/http"
 	"math/rand"
 	"runtime"
 	"time"
@@ -11,12 +12,12 @@ import (
 )
 
 type Server struct {
-	client    *Client
+	client    *http.Client
 	pollCount metric.Counter
 	gauges    []metric.Gauge
 }
 
-func NewServer(client *Client) (*Server, error) {
+func NewServer(client *http.Client) (*Server, error) {
 	if client == nil {
 		return nil, ArgumentNilError
 	}
