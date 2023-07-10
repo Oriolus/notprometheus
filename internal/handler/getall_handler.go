@@ -2,10 +2,11 @@ package handler
 
 import (
 	"fmt"
-	"github.com/oriolus/notprometheus/internal/metric"
-	"github.com/oriolus/notprometheus/internal/server"
 	"net/http"
 	"strings"
+
+	"github.com/oriolus/notprometheus/internal/metric"
+	"github.com/oriolus/notprometheus/internal/server"
 )
 
 type GetAllHandler struct {
@@ -21,7 +22,6 @@ func NewGetAllHandler(server *server.Server) (*GetAllHandler, error) {
 }
 
 func (s *GetAllHandler) ServeHTTP(res http.ResponseWriter, req *http.Request) {
-
 	builder := strings.Builder{}
 
 	for _, g := range s.server.Storage().AllGauges() {

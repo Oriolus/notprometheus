@@ -11,7 +11,7 @@ import (
 	"github.com/oriolus/notprometheus/internal/server/storage/memory"
 )
 
-func main() {
+func ChiRouter() chi.Router {
 	mux := chi.NewRouter()
 	mux.Use(middleware.DefaultLogger)
 
@@ -23,8 +23,12 @@ func main() {
 	updatePattern := fmt.Sprintf("/update/{%s}/{%s}/{%s}", handler.URLParamMetricType, handler.URLParamName, handler.URLParamValue)
 	mux.Post(updatePattern, updateHandler.ServeHTTP)
 	mux.Get("/", getAllHandler.ServeHTTP)
+	return mux
+}
 
-	err := http.ListenAndServe("localhost:8084", mux)
+func main() {
+	mux := ChiRouter()
+	err := http.ListenAndServe("localhost:8080", mux)
 	if err != nil {
 		fmt.Printf("Listening ends with error %s", err.Error())
 	}

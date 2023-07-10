@@ -3,11 +3,12 @@ package main
 import (
 	"context"
 	"fmt"
+
 	"github.com/oriolus/notprometheus/internal/collector"
 )
 
 func main() {
-	client, err := collector.NewClient("http://localhost:8084")
+	client, err := collector.NewClient("http://localhost:8080")
 	if err != nil {
 		fmt.Println(err)
 		return
