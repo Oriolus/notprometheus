@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
 	"github.com/oriolus/notprometheus/internal/handler"
 	"github.com/oriolus/notprometheus/internal/server"
 	"github.com/oriolus/notprometheus/internal/server/storage/memory"
@@ -12,13 +13,16 @@ import (
 
 func main() {
 	mux := chi.NewRouter()
+	mux.Use(middleware.DefaultLogger)
 
 	storage := memory.NewMemStorage()
 	metricServer := server.NewServer(storage)
-	updateHandler := handler.NewUpdateHandler(metricServer)
+	updateHandler, _ := handler.NewUpdateHandler(metricServer)
+	getAllHandler, _ := handler.NewGetAllHandler(metricServer)
 
 	updatePattern := fmt.Sprintf("/update/{%s}/{%s}/{%s}", handler.URLParamMetricType, handler.URLParamName, handler.URLParamValue)
 	mux.Post(updatePattern, updateHandler.ServeHTTP)
+	mux.Get("/", getAllHandler.ServeHTTP)
 
 	err := http.ListenAndServe("localhost:8084", mux)
 	if err != nil {

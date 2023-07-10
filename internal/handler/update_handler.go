@@ -26,8 +26,11 @@ type UpdateHandler struct {
 	server *server.Server
 }
 
-func NewUpdateHandler(server *server.Server) *UpdateHandler {
-	return &UpdateHandler{server: server}
+func NewUpdateHandler(server *server.Server) (*UpdateHandler, error) {
+	if server == nil {
+		return nil, ArgumentNilError
+	}
+	return &UpdateHandler{server: server}, nil
 }
 
 func (s *UpdateHandler) ServeHTTP(res http.ResponseWriter, req *http.Request) {

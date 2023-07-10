@@ -37,6 +37,14 @@ func (s *MemStorage) SetGauge(gauge metric.Gauge) error {
 	return nil
 }
 
+func (s *MemStorage) AllGauges() []metric.Gauge {
+	gs := make([]metric.Gauge, 0, len(s.gauges))
+	for _, g := range s.gauges {
+		gs = append(gs, g)
+	}
+	return gs
+}
+
 func (s *MemStorage) GetCounter(name string) (metric.Counter, error) {
 	cnt, ok := s.counters[name]
 	if !ok {
@@ -52,4 +60,12 @@ func (s *MemStorage) SetCounter(counter metric.Counter) error {
 
 	s.counters[counter.Name()] = counter
 	return nil
+}
+
+func (s *MemStorage) AllCounters() []metric.Counter {
+	cs := make([]metric.Counter, 0, len(s.counters))
+	for _, c := range s.counters {
+		cs = append(cs, c)
+	}
+	return cs
 }

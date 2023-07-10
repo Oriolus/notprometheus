@@ -13,7 +13,9 @@ var (
 type Storage interface {
 	GetGauge(name string) (metric.Gauge, error)
 	SetGauge(gauge metric.Gauge) error
+	AllGauges() []metric.Gauge
 
 	GetCounter(name string) (metric.Counter, error)
 	SetCounter(counter metric.Counter) error
+	AllCounters() []metric.Counter
 }
