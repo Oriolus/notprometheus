@@ -12,12 +12,6 @@ import (
 	"github.com/oriolus/notprometheus/internal/server/storage"
 )
 
-const (
-	URLParamMetricType = "metricType"
-	URLParamName       = "name"
-	URLParamValue      = "value"
-)
-
 var (
 	notImplementedMetric = errors.New("unknown type of metric")
 )

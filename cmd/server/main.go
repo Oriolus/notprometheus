@@ -19,10 +19,15 @@ func ChiRouter() chi.Router {
 	metricServer := server.NewServer(storage)
 	updateHandler, _ := handler.NewUpdateHandler(metricServer)
 	getAllHandler, _ := handler.NewGetAllHandler(metricServer)
+	getMetricValue, _ := handler.NewGetMetricHandler(metricServer)
 
 	updatePattern := fmt.Sprintf("/update/{%s}/{%s}/{%s}", handler.URLParamMetricType, handler.URLParamName, handler.URLParamValue)
 	mux.Post(updatePattern, updateHandler.ServeHTTP)
+
 	mux.Get("/", getAllHandler.ServeHTTP)
+
+	getMetricPattern := fmt.Sprintf("/value/{%s}/{%s}", handler.URLParamMetricType, handler.URLParamName)
+	mux.Get(getMetricPattern, getMetricValue.ServeHTTP)
 	return mux
 }
 

@@ -1,7 +1,13 @@
 package sender
 
 import (
+	"errors"
+
 	"github.com/oriolus/notprometheus/internal/metric"
+)
+
+var (
+	StringIsEmptyError = errors.New("string argument is empty")
 )
 
 type MetricSender interface {

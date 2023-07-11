@@ -3,9 +3,9 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/oriolus/notprometheus/internal/collector/sender/http"
 
 	"github.com/oriolus/notprometheus/internal/collector"
+	"github.com/oriolus/notprometheus/internal/collector/sender/http"
 )
 
 func main() {
