@@ -26,7 +26,7 @@ func testRequest(t *testing.T, ts *httptest.Server, method,
 }
 
 func TestHandlers(t *testing.T) {
-	testServer := httptest.NewServer(ChiRouter())
+	testServer := httptest.NewServer(ChiRouter(defaultConfig))
 	defer testServer.Close()
 
 	var testTable = []struct {

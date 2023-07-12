@@ -12,12 +12,14 @@ import (
 )
 
 type Server struct {
-	client    *http.Client
-	pollCount metric.Counter
-	gauges    []metric.Gauge
+	client         *http.Client
+	pollCount      metric.Counter
+	gauges         []metric.Gauge
+	pollInterval   time.Duration
+	reportInterval time.Duration
 }
 
-func NewServer(client *http.Client) (*Server, error) {
+func NewServer(client *http.Client, pollInterval, reportInterval time.Duration) (*Server, error) {
 	if client == nil {
 		return nil, ArgumentNilError
 	}
@@ -26,22 +28,27 @@ func NewServer(client *http.Client) (*Server, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &Server{client: client, pollCount: pollCount}, nil
+	return &Server{
+		client:         client,
+		pollCount:      pollCount,
+		pollInterval:   pollInterval,
+		reportInterval: reportInterval,
+	}, nil
 }
 
 func (s *Server) Run(ctx context.Context) error {
-	collectTicker := time.NewTicker(2 * time.Second)
-	sendTicker := time.NewTicker(10 * time.Second)
+	pollTicker := time.NewTicker(s.pollInterval)
+	reportTicker := time.NewTicker(s.reportInterval)
 	for {
 		select {
 		case <-ctx.Done():
 			return nil
-		case <-collectTicker.C:
+		case <-pollTicker.C:
 			err := s.processMetrics()
 			if err != nil {
 				fmt.Println(err)
 			}
-		case <-sendTicker.C:
+		case <-reportTicker.C:
 			s.send()
 		}
 	}

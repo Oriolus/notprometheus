@@ -9,12 +9,15 @@ import (
 )
 
 func main() {
-	client, err := http.NewClient("http://localhost:8080")
+	cfg := parseFlags()
+	url := cfg.address + "/" + cfg.base
+
+	client, err := http.NewClient(url)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-	server, _ := collector.NewServer(client)
+	server, _ := collector.NewServer(client, cfg.pollInterval, cfg.reportInterval)
 	err = server.Run(context.Background())
 	if err != nil {
 		fmt.Println(err)
