@@ -23,8 +23,8 @@ func NewCounter(name string) (Counter, error) {
 	return &counter{name: name, value: 1}, nil
 }
 
-func (c *counter) Set(value int64) {
-	c.value = value
+func (c *counter) Add(value int64) {
+	c.value += value
 }
 
 func (c *counter) Value() int64 {

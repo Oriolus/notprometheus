@@ -65,7 +65,7 @@ func (s *UpdateHandler) processCounter(name, value string) error {
 
 	c, err := s.server.Storage().GetCounter(name)
 	if err == nil {
-		c.Set(intValue)
+		c.Add(intValue)
 		return nil
 	}
 
@@ -73,10 +73,6 @@ func (s *UpdateHandler) processCounter(name, value string) error {
 		return err
 	}
 
-	c, err = metric.NewCounter(name)
-	if err != nil {
-		return err
-	}
 	c, err = metric.NewCounterWithValue(name, intValue)
 	if err != nil {
 		return err
