@@ -27,7 +27,7 @@ type Gauge interface {
 }
 
 type Counter interface {
-	Inc()
+	Set(value int64)
 	Value() int64
 	Name() string
 }

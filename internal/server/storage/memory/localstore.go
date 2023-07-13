@@ -51,5 +51,5 @@ func (s *MemStorage) SetCounter(counter metric.Counter) error {
 	}
 
 	s.counters[counter.Name()] = counter
-	return storage.MetricNotFound
+	return nil
 }

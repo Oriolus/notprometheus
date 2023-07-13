@@ -61,7 +61,7 @@ func (s *UpdateHandler) ServeHTTP(res http.ResponseWriter, req *http.Request) {
 
 func (s *UpdateHandler) handle(mType metric.Type, name string, value string) error {
 	if mType == metric.TypeCounter {
-		return s.processCounter(name)
+		return s.processCounter(name, value)
 	} else if mType == metric.TypeGauge {
 		return s.processGauge(name, value)
 	} else {
@@ -69,18 +69,26 @@ func (s *UpdateHandler) handle(mType metric.Type, name string, value string) err
 	}
 }
 
-func (s *UpdateHandler) processCounter(name string) error {
-	c, err := s.server.Storage().GetCounter(name)
-	if err == nil {
-		c.Inc()
-		return nil
-	}
-
-	if !errors.Is(err, storage.MetricNotFound) {
+func (s *UpdateHandler) processCounter(name, value string) error {
+	intValue, err := strconv.ParseInt(value, 10, 64)
+	if err != nil {
 		return err
 	}
 
-	c, err = metric.NewCounter(name)
+	c, err := s.server.Storage().GetCounter(name)
+	if err == nil {
+		c.Set(intValue)
+		return nil
+	}
+
+	if err != storage.MetricNotFound {
+		return err
+	}
+
+	c, err = metric.NewCounterWithValue(name, intValue)
+	if err != nil {
+		return err
+	}
 	return s.server.Storage().SetCounter(c)
 }
 
