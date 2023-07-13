@@ -9,7 +9,10 @@ import (
 )
 
 func main() {
-	cfg := parseFlags()
+	cfg, err := parseFlags()
+	if err != nil {
+		fmt.Printf("error while getting config: %s\r\n", err.Error())
+	}
 	url := cfg.address + "/" + cfg.base
 
 	client, err := http.NewClient(url)

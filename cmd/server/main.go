@@ -33,7 +33,6 @@ func ChiRouter(cfg *config) chi.Router {
 
 func main() {
 	cfg := parseFlags()
-
 	mux := ChiRouter(cfg)
 
 	fmt.Printf("Listening address %s with base %s", cfg.address, cfg.base)
