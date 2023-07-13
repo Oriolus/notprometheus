@@ -28,6 +28,7 @@ type Gauge interface {
 
 type Counter interface {
 	Inc()
+	Add(value int64)
 	Value() int64
 	Name() string
 }

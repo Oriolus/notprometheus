@@ -12,7 +12,7 @@ type config struct {
 
 const (
 	addressDefault = "localhost:8080"
-	baseDefault    = "metrics"
+	baseDefault    = ""
 
 	addressEnvParamName = "SERVER_ADDRESS"
 	baseEnvParamName    = "BASE_URL"

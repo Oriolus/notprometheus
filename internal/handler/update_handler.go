@@ -35,7 +35,6 @@ func (s *UpdateHandler) ServeHTTP(res http.ResponseWriter, req *http.Request) {
 	mType, err := metric.GetMetricType(typ)
 	if err != nil {
 		res.WriteHeader(http.StatusBadRequest)
-		res.Write([]byte(err.Error()))
 		return
 	}
 
@@ -43,7 +42,6 @@ func (s *UpdateHandler) ServeHTTP(res http.ResponseWriter, req *http.Request) {
 	if err != nil {
 		// todo: differentiate user errors and server errors
 		res.WriteHeader(http.StatusBadRequest)
-		res.Write([]byte(err.Error()))
 		return
 	}
 	res.WriteHeader(http.StatusOK)
@@ -51,7 +49,7 @@ func (s *UpdateHandler) ServeHTTP(res http.ResponseWriter, req *http.Request) {
 
 func (s *UpdateHandler) handle(mType metric.Type, name string, value string) error {
 	if mType == metric.TypeCounter {
-		return s.processCounter(name)
+		return s.processCounter(name, value)
 	} else if mType == metric.TypeGauge {
 		return s.processGauge(name, value)
 	} else {
@@ -59,10 +57,15 @@ func (s *UpdateHandler) handle(mType metric.Type, name string, value string) err
 	}
 }
 
-func (s *UpdateHandler) processCounter(name string) error {
+func (s *UpdateHandler) processCounter(name, value string) error {
+	intValue, err := strconv.ParseInt(value, 10, 64)
+	if err != nil {
+		return err
+	}
+
 	c, err := s.server.Storage().GetCounter(name)
 	if err == nil {
-		c.Inc()
+		c.Add(intValue)
 		return nil
 	}
 
@@ -70,7 +73,7 @@ func (s *UpdateHandler) processCounter(name string) error {
 		return err
 	}
 
-	c, err = metric.NewCounter(name)
+	c, err = metric.NewCounterWithValue(name, intValue)
 	if err != nil {
 		return err
 	}

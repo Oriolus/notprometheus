@@ -21,12 +21,16 @@ func ChiRouter(cfg *config) chi.Router {
 	getAllHandler, _ := handler.NewGetAllHandler(metricServer)
 	getMetricValue, _ := handler.NewGetMetricHandler(metricServer)
 
-	updatePattern := fmt.Sprintf("/%s/update/{%s}/{%s}/{%s}", cfg.base, handler.URLParamMetricType, handler.URLParamName, handler.URLParamValue)
+	base := ""
+	if cfg.base != "" {
+		base = "/" + cfg.base
+	}
+	updatePattern := fmt.Sprintf("%s/update/{%s}/{%s}/{%s}", base, handler.URLParamMetricType, handler.URLParamName, handler.URLParamValue)
 	mux.Post(updatePattern, updateHandler.ServeHTTP)
 
-	mux.Get(fmt.Sprintf("/%s/", cfg.base), getAllHandler.ServeHTTP)
+	mux.Get(fmt.Sprintf("%s/", cfg.base), getAllHandler.ServeHTTP)
 
-	getMetricPattern := fmt.Sprintf("/%s/value/{%s}/{%s}", cfg.base, handler.URLParamMetricType, handler.URLParamName)
+	getMetricPattern := fmt.Sprintf("%s/value/{%s}/{%s}", base, handler.URLParamMetricType, handler.URLParamName)
 	mux.Get(getMetricPattern, getMetricValue.ServeHTTP)
 	return mux
 }

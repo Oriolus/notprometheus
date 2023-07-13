@@ -37,6 +37,8 @@ func TestHandlers(t *testing.T) {
 	}{
 		{"", http.MethodGet, "", http.StatusOK},
 		{"/update/counter/cnt/1", http.MethodPost, "", http.StatusOK},
+		{"/update/counter/testCounter/100", http.MethodPost, "", http.StatusOK},
+		{"/update/counter/testCounter/none", http.MethodPost, `strconv.ParseInt: parsing "none": invalid syntax`, http.StatusBadRequest},
 		{"/update/gauge/g/1.0", http.MethodPost, "", http.StatusOK},
 		{"/update/gg", http.MethodPost, "404 page not found\n", http.StatusNotFound},
 		{"/update/gauge/g", http.MethodPost, "404 page not found\n", http.StatusNotFound},
