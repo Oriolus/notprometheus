@@ -3,5 +3,5 @@ package storage
 import "errors"
 
 var (
-	ArgumentNilError = errors.New("wrong argument")
+	ErrArgumentNil = errors.New("wrong argument")
 )

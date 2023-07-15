@@ -3,18 +3,18 @@ package handler
 import (
 	"errors"
 	"fmt"
-	"github.com/oriolus/notprometheus/internal/server"
-	"github.com/oriolus/notprometheus/internal/server/storage"
 	"net/http"
 	"strconv"
 	"strings"
 
 	"github.com/oriolus/notprometheus/internal/metric"
+	"github.com/oriolus/notprometheus/internal/server"
+	"github.com/oriolus/notprometheus/internal/server/storage"
 )
 
 var (
-	badUriFormatError    = errors.New("bad uri format")
-	notImplementedMetric = errors.New("unknown type of metric")
+	ErrBadUriFormat   = errors.New("bad uri format")
+	ErrNotImplemented = errors.New("unknown type of metric")
 )
 
 const methodName = "update"
@@ -65,7 +65,7 @@ func (s *UpdateHandler) handle(mType metric.Type, name string, value string) err
 	} else if mType == metric.TypeGauge {
 		return s.processGauge(name, value)
 	} else {
-		return notImplementedMetric
+		return ErrNotImplemented
 	}
 }
 
@@ -81,7 +81,7 @@ func (s *UpdateHandler) processCounter(name, value string) error {
 		return nil
 	}
 
-	if err != storage.MetricNotFound {
+	if err != storage.ErrMetricNotFound {
 		return err
 	}
 
@@ -104,7 +104,7 @@ func (s *UpdateHandler) processGauge(name, value string) error {
 		return nil
 	}
 
-	if !errors.Is(err, storage.MetricNotFound) {
+	if !errors.Is(err, storage.ErrMetricNotFound) {
 		return err
 	}
 
@@ -115,10 +115,10 @@ func (s *UpdateHandler) processGauge(name, value string) error {
 	return s.server.Storage().SetGauge(g)
 }
 
-func parseRequestURI(requestUri string) (method, typ, name, value string, err error) {
-	parts := strings.Split(requestUri, "/")
+func parseRequestURI(requestURI string) (method, typ, name, value string, err error) {
+	parts := strings.Split(requestURI, "/")
 	if len(parts) != 5 {
-		return "", "", "", "", badUriFormatError
+		return "", "", "", "", ErrBadUriFormat
 	}
 
 	method = parts[1]

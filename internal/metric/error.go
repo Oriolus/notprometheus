@@ -3,6 +3,6 @@ package metric
 import "errors"
 
 var (
-	UnknownMetricTypeError = errors.New("unknown metric type error")
-	EmptyNameError         = errors.New("empty name")
+	ErrUnknownMetricType = errors.New("unknown metric type error")
+	ErrEmptyName         = errors.New("empty name")
 )
