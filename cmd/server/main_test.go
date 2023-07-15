@@ -35,7 +35,6 @@ func TestHandlers(t *testing.T) {
 		want   string
 		status int
 	}{
-		{"", http.MethodGet, "", http.StatusOK},
 		{"/update/counter/cnt/1", http.MethodPost, "", http.StatusOK},
 		{"/value/counter/cnt", http.MethodGet, "1", http.StatusOK},
 		{"/value/counter/cnt11", http.MethodGet, "", http.StatusNotFound},

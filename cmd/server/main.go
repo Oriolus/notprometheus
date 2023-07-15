@@ -21,12 +21,15 @@ func ChiRouter(cfg *config) chi.Router {
 	getAllHandler, _ := handler.NewGetAllHandler(metricServer)
 	getMetricValue, _ := handler.NewGetMetricHandler(metricServer)
 
-	updatePattern := fmt.Sprintf("/%s/update/{%s}/{%s}/{%s}", cfg.base, handler.URLParamMetricType, handler.URLParamName, handler.URLParamValue)
+	updatePattern := fmt.Sprintf("/update/{%s}/{%s}/{%s}", handler.URLParamMetricType, handler.URLParamName, handler.URLParamValue)
+	updatePattern = addBase(cfg, updatePattern)
 	mux.Post(updatePattern, updateHandler.ServeHTTP)
 
-	mux.Get(fmt.Sprintf("/%s/", cfg.base), getAllHandler.ServeHTTP)
+	getAllPattern := addBase(cfg, "/")
+	mux.Get(getAllPattern, getAllHandler.ServeHTTP)
 
-	getMetricPattern := fmt.Sprintf("/%s/value/{%s}/{%s}", cfg.base, handler.URLParamMetricType, handler.URLParamName)
+	getMetricPattern := fmt.Sprintf("/value/{%s}/{%s}", handler.URLParamMetricType, handler.URLParamName)
+	getMetricPattern = addBase(cfg, getMetricPattern)
 	mux.Get(getMetricPattern, getMetricValue.ServeHTTP)
 	return mux
 }
@@ -41,4 +44,11 @@ func main() {
 	if err != nil {
 		fmt.Printf("Listening ends with error %s", err.Error())
 	}
+}
+
+func addBase(cfg *config, url string) string {
+	if cfg == nil || cfg.base == "" {
+		return url
+	}
+	return "/" + cfg.base + url
 }
