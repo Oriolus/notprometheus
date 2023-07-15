@@ -39,8 +39,9 @@ func (s *GetMetricHandler) ServeHTTP(res http.ResponseWriter, req *http.Request)
 			return
 		}
 
-		_, err = res.Write([]byte(fmt.Sprintf(strconv.FormatFloat(gauge.Value(), 'f', -1, 64))))
+		_, err = res.Write([]byte(strconv.FormatFloat(gauge.Value(), 'f', -1, 64)))
 		if err != nil {
+			// вообще это 500, но все же)
 			fmt.Printf("errorw while writing to response %s\r\n", err.Error())
 		}
 	} else if mType == metric.TypeCounter {
