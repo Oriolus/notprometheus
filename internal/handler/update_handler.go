@@ -23,7 +23,7 @@ type UpdateHandler struct {
 
 func NewUpdateHandler(server *server.Server) (*UpdateHandler, error) {
 	if server == nil {
-		return nil, ArgumentNilError
+		return nil, ErrArgumentNil
 	}
 	return &UpdateHandler{server: server}, nil
 }
@@ -74,10 +74,6 @@ func (s *UpdateHandler) processCounter(name, value string) error {
 		return err
 	}
 
-	c, err = metric.NewCounter(name)
-	if err != nil {
-		return err
-	}
 	c, err = metric.NewCounterWithValue(name, intValue)
 	if err != nil {
 		return err

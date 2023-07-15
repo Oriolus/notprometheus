@@ -7,7 +7,7 @@ import (
 )
 
 var (
-	StringIsEmptyError = errors.New("string argument is empty")
+	ErrStringIsEmpty = errors.New("string argument is empty")
 )
 
 type MetricSender interface {

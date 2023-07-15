@@ -19,7 +19,7 @@ type Server struct {
 
 func NewServer(client *http.Client) (*Server, error) {
 	if client == nil {
-		return nil, ArgumentNilError
+		return nil, ErrArgumentNil
 	}
 
 	pollCount, err := metric.NewCounter("poolCount")

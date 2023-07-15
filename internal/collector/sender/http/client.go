@@ -17,23 +17,25 @@ type Client struct {
 
 func NewClient(base string) (*Client, error) {
 	if base == "" {
-		return nil, sender.StringIsEmptyError
+		return nil, sender.ErrStringIsEmpty
 	}
 	return &Client{client: http.Client{}, base: base}, nil
 }
 
 func (c *Client) UpdateGauge(gauge metric.Gauge) error {
-	url := c.getUrl(metric.TypeGauge, gauge.Name(), fmt.Sprintf("%f", gauge.Value()))
-	_, err := c.client.Post(url, "text/plain", nil)
+	url := c.getURL(metric.TypeGauge, gauge.Name(), fmt.Sprintf("%f", gauge.Value()))
+	resp, err := c.client.Post(url, "text/plain", nil)
+	defer resp.Body.Close()
 	return err
 }
 
 func (c *Client) UpdateCounter(counter metric.Counter) error {
-	url := c.getUrl(metric.TypeCounter, counter.Name(), fmt.Sprintf("%d", counter.Value()))
-	_, err := c.client.Post(url, "text/plain", nil)
+	url := c.getURL(metric.TypeCounter, counter.Name(), fmt.Sprintf("%d", counter.Value()))
+	resp, err := c.client.Post(url, "text/plain", nil)
+	defer resp.Body.Close()
 	return err
 }
 
-func (c *Client) getUrl(metricType metric.Type, name, value string) string {
+func (c *Client) getURL(metricType metric.Type, name, value string) string {
 	return fmt.Sprintf("%s/update/%s/%s/%s", c.base, string(metricType), name, value)
 }

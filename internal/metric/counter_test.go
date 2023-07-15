@@ -20,7 +20,7 @@ func TestCounter(t *testing.T) {
 
 		// assert
 		require.Error(t, err)
-		assert.Equal(t, EmptyNameError, err)
+		assert.Equal(t, ErrEmptyName, err)
 	})
 
 	t.Run("NewCounter; name is not empty; should not return error", func(t *testing.T) {

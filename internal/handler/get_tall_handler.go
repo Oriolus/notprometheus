@@ -15,7 +15,7 @@ type GetAllHandler struct {
 
 func NewGetAllHandler(server *server.Server) (*GetAllHandler, error) {
 	if server == nil {
-		return nil, ArgumentNilError
+		return nil, ErrArgumentNil
 	}
 
 	return &GetAllHandler{server: server}, nil
