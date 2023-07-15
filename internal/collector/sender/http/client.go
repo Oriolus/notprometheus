@@ -25,15 +25,21 @@ func NewClient(base string) (*Client, error) {
 func (c *Client) UpdateGauge(gauge metric.Gauge) error {
 	url := c.getURL(metric.TypeGauge, gauge.Name(), fmt.Sprintf("%f", gauge.Value()))
 	resp, err := c.client.Post(url, "text/plain", nil)
-	defer resp.Body.Close()
-	return err
+	if err != nil {
+		return err
+	}
+	resp.Body.Close()
+	return nil
 }
 
 func (c *Client) UpdateCounter(counter metric.Counter) error {
 	url := c.getURL(metric.TypeCounter, counter.Name(), fmt.Sprintf("%d", counter.Value()))
 	resp, err := c.client.Post(url, "text/plain", nil)
-	defer resp.Body.Close()
-	return err
+	if err != nil {
+		return err
+	}
+	resp.Body.Close()
+	return nil
 }
 
 func (c *Client) getURL(metricType metric.Type, name, value string) string {
