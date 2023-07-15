@@ -13,7 +13,7 @@ import (
 )
 
 var (
-	ErrBadUriFormat   = errors.New("bad uri format")
+	ErrBadURIFormat   = errors.New("bad uri format")
 	ErrNotImplemented = errors.New("unknown type of metric")
 )
 
@@ -118,7 +118,7 @@ func (s *UpdateHandler) processGauge(name, value string) error {
 func parseRequestURI(requestURI string) (method, typ, name, value string, err error) {
 	parts := strings.Split(requestURI, "/")
 	if len(parts) != 5 {
-		return "", "", "", "", ErrBadUriFormat
+		return "", "", "", "", ErrBadURIFormat
 	}
 
 	method = parts[1]
