@@ -51,5 +51,6 @@ func TestHandlers(t *testing.T) {
 		resp, get := testRequest(t, testServer, v.method, v.url)
 		assert.Equal(t, v.status, resp.StatusCode)
 		assert.Equal(t, v.want, get)
+		resp.Body.Close()
 	}
 }

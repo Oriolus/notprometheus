@@ -23,7 +23,7 @@ func TestMemStorage(t *testing.T) {
 
 		// assert
 		require.Error(t, err)
-		assert.Equal(t, err, storageImp.MetricNotFoundError)
+		assert.Equal(t, err, storageImp.ErrMetricNotFound)
 	})
 
 	t.Run("GetGauge; metric found; should not return error;", func(t *testing.T) {
@@ -53,7 +53,7 @@ func TestMemStorage(t *testing.T) {
 
 		// assert
 		require.Error(t, err)
-		assert.Error(t, err, storageImp.ArgumentNilError)
+		assert.Error(t, err, storageImp.ErrArgumentNil)
 	})
 
 	t.Run("SetGauge; metric is nil; should return error;", func(t *testing.T) {
@@ -81,7 +81,7 @@ func TestMemStorage(t *testing.T) {
 
 		// assert
 		require.Error(t, err)
-		assert.Equal(t, err, storageImp.MetricNotFoundError)
+		assert.Equal(t, err, storageImp.ErrMetricNotFound)
 	})
 
 	t.Run("GetCounter; metric found; should not return error;", func(t *testing.T) {
@@ -111,7 +111,7 @@ func TestMemStorage(t *testing.T) {
 
 		// assert
 		require.Error(t, err)
-		assert.Error(t, err, storageImp.ArgumentNilError)
+		assert.Error(t, err, storageImp.ErrArgumentNil)
 	})
 
 	t.Run("SetCounter; metric is nil; should return error;", func(t *testing.T) {
