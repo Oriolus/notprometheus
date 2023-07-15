@@ -16,7 +16,7 @@ type GetMetricHandler struct {
 
 func NewGetMetricHandler(server *server.Server) (*GetMetricHandler, error) {
 	if server == nil {
-		return nil, ArgumentNilError
+		return nil, ErrArgumentNil
 	}
 
 	return &GetMetricHandler{server: server}, nil
