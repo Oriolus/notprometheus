@@ -17,7 +17,7 @@ type config struct {
 
 const (
 	addressDefault        = "http://localhost:8080"
-	baseDefault           = "metrics"
+	baseDefault           = ""
 	reportIntervalDefault = 10 * time.Second
 	pollIntervalDefault   = 2 * time.Second
 
