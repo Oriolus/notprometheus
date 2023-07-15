@@ -17,7 +17,7 @@ func GetMetricType(typ string) (Type, error) {
 		return TypeCounter, nil
 	}
 
-	return TypeNone, UnknownMetricTypeError
+	return TypeNone, ErrUnknownMetricType
 }
 
 type Gauge interface {

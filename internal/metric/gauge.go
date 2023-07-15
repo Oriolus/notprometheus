@@ -9,7 +9,7 @@ type gauge struct {
 
 func NewGauge(name string, value float64) (Gauge, error) {
 	if name == "" {
-		return nil, EmptyNameError
+		return nil, ErrEmptyName
 	}
 
 	return &gauge{name: name, value: value}, nil

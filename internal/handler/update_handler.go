@@ -13,7 +13,8 @@ import (
 )
 
 var (
-	notImplementedMetric = errors.New("unknown type of metric")
+	ErrBadURIFormat   = errors.New("bad uri format")
+	ErrNotImplemented = errors.New("unknown type of metric")
 )
 
 type UpdateHandler struct {
@@ -53,7 +54,7 @@ func (s *UpdateHandler) handle(mType metric.Type, name string, value string) err
 	} else if mType == metric.TypeGauge {
 		return s.processGauge(name, value)
 	} else {
-		return notImplementedMetric
+		return ErrNotImplemented
 	}
 }
 
@@ -69,7 +70,7 @@ func (s *UpdateHandler) processCounter(name, value string) error {
 		return nil
 	}
 
-	if err != storage.MetricNotFoundError || !errors.Is(err, storage.MetricNotFoundError) {
+	if err != storage.ErrMetricNotFound {
 		return err
 	}
 
@@ -96,7 +97,7 @@ func (s *UpdateHandler) processGauge(name, value string) error {
 		return nil
 	}
 
-	if !errors.Is(err, storage.MetricNotFoundError) {
+	if !errors.Is(err, storage.ErrMetricNotFound) {
 		return err
 	}
 

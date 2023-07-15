@@ -9,7 +9,7 @@ type counter struct {
 
 func NewCounterWithValue(name string, value int64) (Counter, error) {
 	if name == "" {
-		return nil, EmptyNameError
+		return nil, ErrEmptyName
 	}
 
 	return &counter{name: name, value: value}, nil
@@ -17,7 +17,7 @@ func NewCounterWithValue(name string, value int64) (Counter, error) {
 
 func NewCounter(name string) (Counter, error) {
 	if name == "" {
-		return nil, EmptyNameError
+		return nil, ErrEmptyName
 	}
 
 	return &counter{name: name, value: 1}, nil
