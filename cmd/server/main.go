@@ -39,7 +39,7 @@ func main() {
 	cfg := parseFlags()
 	mux := ChiRouter(cfg)
 
-	fmt.Printf("Listening address %s with base %s", cfg.address, cfg.base)
+	fmt.Printf("Starting server with config: %s\r\n", cfg)
 
 	err := http.ListenAndServe(cfg.address, mux)
 	if err != nil {

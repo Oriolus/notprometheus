@@ -2,12 +2,17 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"os"
 )
 
 type config struct {
 	address string
 	base    string
+}
+
+func (c *config) String() string {
+	return fmt.Sprintf("address: %s, base: %s", c.address, c.base)
 }
 
 const (

@@ -13,7 +13,13 @@ func main() {
 	if err != nil {
 		fmt.Printf("error while getting config: %s\r\n", err.Error())
 	}
-	url := cfg.address + "/" + cfg.base
+
+	fmt.Printf("Starting agent with config: %s\r\n", cfg)
+
+	url := "http://" + cfg.address
+	if cfg.base != "" {
+		url += "/" + cfg.base
+	}
 
 	client, err := http.NewClient(url)
 	if err != nil {
