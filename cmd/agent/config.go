@@ -19,7 +19,7 @@ func (c *config) String() string {
 }
 
 const (
-	addressDefault           = "http://localhost:8080"
+	addressDefault           = "localhost:8080"
 	baseDefault              = ""
 	reportIntervalSecDefault = 10
 	pollIntervalSecDefault   = 2
