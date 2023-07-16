@@ -16,7 +16,7 @@ func main() {
 
 	fmt.Printf("Starting agent with config: %s\r\n", cfg)
 
-	url := cfg.address
+	url := "http://" + cfg.address
 	if cfg.base != "" {
 		url += "/" + cfg.base
 	}
