@@ -19,7 +19,7 @@ const (
 	addressDefault = "localhost:8080"
 	baseDefault    = ""
 
-	addressEnvParamName = "SERVER_ADDRESS"
+	addressEnvParamName = "ADDRESS"
 	baseEnvParamName    = "BASE_URL"
 )
 

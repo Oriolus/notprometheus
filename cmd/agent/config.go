@@ -26,7 +26,7 @@ const (
 	reportIntervalSecDefault = 10
 	pollIntervalSecDefault   = 2
 
-	addressEnvParamName        = "SERVER_ADDRESS"
+	addressEnvParamName        = "ADDRESS"
 	baseEnvParamName           = "BASE_URL"
 	pollIntervalEnvParamName   = "POLL_INTERVAL"
 	reportIntervalEnvParamName = "REPORT_INTERVAL"
