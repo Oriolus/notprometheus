@@ -49,11 +49,12 @@ func (s *UpdateHandler) ServeHTTP(res http.ResponseWriter, req *http.Request) {
 }
 
 func (s *UpdateHandler) handle(mType metric.Type, name string, value string) error {
-	if mType == metric.TypeCounter {
+	switch mType {
+	case metric.TypeCounter:
 		return s.processCounter(name, value)
-	} else if mType == metric.TypeGauge {
+	case metric.TypeGauge:
 		return s.processGauge(name, value)
-	} else {
+	default:
 		return ErrNotImplemented
 	}
 }
