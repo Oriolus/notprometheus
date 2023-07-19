@@ -3,14 +3,15 @@ package memory
 import (
 	"github.com/oriolus/notprometheus/internal/metric"
 	"github.com/oriolus/notprometheus/internal/server/storage"
+	"sync"
 )
 
 var _ storage.Storage = (*MemStorage)(nil)
 
-// MemStorage warning! thread unsafe
 type MemStorage struct {
 	gauges   map[string]metric.Gauge
 	counters map[string]metric.Counter
+	locker   sync.Mutex
 }
 
 func NewMemStorage() storage.Storage {
@@ -33,6 +34,8 @@ func (s *MemStorage) SetGauge(gauge metric.Gauge) error {
 		return storage.ErrArgumentNil
 	}
 
+	s.locker.Lock()
+	defer s.locker.Unlock()
 	s.gauges[gauge.Name()] = gauge
 	return nil
 }
@@ -58,6 +61,8 @@ func (s *MemStorage) SetCounter(counter metric.Counter) error {
 		return storage.ErrArgumentNil
 	}
 
+	s.locker.Lock()
+	defer s.locker.Unlock()
 	s.counters[counter.Name()] = counter
 	return nil
 }
