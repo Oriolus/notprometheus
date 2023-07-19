@@ -3,12 +3,15 @@ package http
 import (
 	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/oriolus/notprometheus/internal/collector/sender"
 	"github.com/oriolus/notprometheus/internal/metric"
 )
 
 var _ sender.MetricSender = (*Client)(nil)
+
+const clientTimeout = 300 * time.Millisecond
 
 type Client struct {
 	client http.Client
@@ -19,7 +22,7 @@ func NewClient(base string) (*Client, error) {
 	if base == "" {
 		return nil, sender.ErrStringIsEmpty
 	}
-	return &Client{client: http.Client{}, base: base}, nil
+	return &Client{client: http.Client{Timeout: clientTimeout}, base: base}, nil
 }
 
 func (c *Client) UpdateGauge(gauge metric.Gauge) error {
