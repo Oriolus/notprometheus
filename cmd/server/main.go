@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
+	"github.com/oriolus/notprometheus/cmd/server/middleware"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
-	"github.com/go-chi/chi/v5/middleware"
 	"github.com/oriolus/notprometheus/internal/handler"
 	"github.com/oriolus/notprometheus/internal/server"
 	"github.com/oriolus/notprometheus/internal/server/storage/memory"
@@ -13,7 +13,7 @@ import (
 
 func ChiRouter(cfg *config) chi.Router {
 	mux := chi.NewRouter()
-	mux.Use(middleware.DefaultLogger)
+	mux.Use(middleware.WithLogging)
 
 	storage := memory.NewMemStorage()
 	metricServer := server.NewServer(storage)
@@ -41,8 +41,7 @@ func main() {
 
 	fmt.Printf("Starting server with config: %s\r\n", cfg)
 
-	err := http.ListenAndServe(cfg.address, mux)
-	if err != nil {
+	if err := http.ListenAndServe(cfg.address, mux); err != nil {
 		fmt.Printf("Listening ends with error %s", err.Error())
 	}
 }
