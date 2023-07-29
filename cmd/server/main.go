@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
-	"github.com/oriolus/notprometheus/cmd/server/middleware"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/oriolus/notprometheus/cmd/server/middleware"
 	"github.com/oriolus/notprometheus/internal/handler"
 	"github.com/oriolus/notprometheus/internal/server"
 	"github.com/oriolus/notprometheus/internal/server/storage/memory"
@@ -17,21 +17,30 @@ func ChiRouter(cfg *config) chi.Router {
 
 	storage := memory.NewMemStorage()
 	metricServer := server.NewServer(storage)
-	updateHandler, _ := handler.NewUpdateHandler(metricServer)
-	getAllHandler, _ := handler.NewGetAllHandler(metricServer)
-	getMetricValue, _ := handler.NewGetMetricHandler(metricServer)
 
 	base := ""
 	if cfg.base != "" {
 		base = "/" + cfg.base
 	}
+	updateHandler, _ := handler.NewUpdateHandler(metricServer)
 	updatePattern := fmt.Sprintf("%s/update/{%s}/{%s}/{%s}", base, handler.URLParamMetricType, handler.URLParamName, handler.URLParamValue)
 	mux.Post(updatePattern, updateHandler.ServeHTTP)
 
+	getAllHandler, _ := handler.NewGetAllHandler(metricServer)
 	mux.Get(fmt.Sprintf("%s/", cfg.base), getAllHandler.ServeHTTP)
 
 	getMetricPattern := fmt.Sprintf("%s/value/{%s}/{%s}", base, handler.URLParamMetricType, handler.URLParamName)
+	getMetricValue, _ := handler.NewGetMetricHandler(metricServer)
 	mux.Get(getMetricPattern, getMetricValue.ServeHTTP)
+
+	updateJsonHandler, _ := handler.NewUpdateJSONedHandler(metricServer)
+	updateJsonPattern := fmt.Sprintf("%s/update", base)
+	mux.Post(updateJsonPattern, updateJsonHandler.ServeHTTP)
+
+	getJsonHandler, _ := handler.NewGetJSONedHandler(metricServer)
+	getJsonPattern := fmt.Sprintf("%s/value", base)
+	mux.Get(getJsonPattern, getJsonHandler.ServeHTTP)
+
 	return mux
 }
 

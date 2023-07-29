@@ -13,7 +13,6 @@ import (
 )
 
 var (
-	ErrBadURIFormat   = errors.New("bad uri format")
 	ErrNotImplemented = errors.New("unknown type of metric")
 )
 

@@ -22,6 +22,9 @@ func NewMemStorage() storage.Storage {
 }
 
 func (s *MemStorage) GetGauge(name string) (metric.Gauge, error) {
+	s.locker.Lock()
+	defer s.locker.Unlock()
+
 	g, ok := s.gauges[name]
 	if !ok {
 		return nil, storage.ErrMetricNotFound
@@ -41,6 +44,9 @@ func (s *MemStorage) SetGauge(gauge metric.Gauge) error {
 }
 
 func (s *MemStorage) AllGauges() []metric.Gauge {
+	s.locker.Lock()
+	defer s.locker.Unlock()
+
 	gs := make([]metric.Gauge, 0, len(s.gauges))
 	for _, g := range s.gauges {
 		gs = append(gs, g)
@@ -49,6 +55,9 @@ func (s *MemStorage) AllGauges() []metric.Gauge {
 }
 
 func (s *MemStorage) GetCounter(name string) (metric.Counter, error) {
+	s.locker.Lock()
+	defer s.locker.Unlock()
+
 	cnt, ok := s.counters[name]
 	if !ok {
 		return nil, storage.ErrMetricNotFound
@@ -68,6 +77,9 @@ func (s *MemStorage) SetCounter(counter metric.Counter) error {
 }
 
 func (s *MemStorage) AllCounters() []metric.Counter {
+	s.locker.Lock()
+	defer s.locker.Unlock()
+
 	cs := make([]metric.Counter, 0, len(s.counters))
 	for _, c := range s.counters {
 		cs = append(cs, c)
