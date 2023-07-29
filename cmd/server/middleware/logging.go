@@ -6,7 +6,7 @@ import (
 
 	"go.uber.org/zap"
 
-	"github.com/oriolus/notprometheus/cmd/server/logging"
+	"github.com/oriolus/notprometheus/internal/logging"
 )
 
 type (
