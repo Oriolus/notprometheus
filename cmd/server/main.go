@@ -34,12 +34,12 @@ func ChiRouter(cfg *config) chi.Router {
 	mux.Get(getMetricPattern, getMetricValue.ServeHTTP)
 
 	updateJSONHandler, _ := handler.NewUpdateJSONedHandler(metricServer)
-	updateJSONPattern := fmt.Sprintf("%s/update", base)
+	updateJSONPattern := fmt.Sprintf("%s/update/", base)
 	mux.Post(updateJSONPattern, updateJSONHandler.ServeHTTP)
 
 	getJSONHandler, _ := handler.NewGetJSONedHandler(metricServer)
-	getJSONPattern := fmt.Sprintf("%s/value", base)
-	mux.Get(getJSONPattern, getJSONHandler.ServeHTTP)
+	getJSONPattern := fmt.Sprintf("%s/value/", base)
+	mux.Post(getJSONPattern, getJSONHandler.ServeHTTP)
 
 	return mux
 }

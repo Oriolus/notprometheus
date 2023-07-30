@@ -24,6 +24,8 @@ func NewGetJSONedHandler(server *server.Server) (*GetJSONedHandler, error) {
 }
 
 func (s *GetJSONedHandler) ServeHTTP(res http.ResponseWriter, req *http.Request) {
+	res.Header().Add(contentTypeKey, JSONContentTypeValue)
+
 	if req.Header.Get(contentTypeKey) != JSONContentTypeValue {
 		res.WriteHeader(http.StatusBadRequest)
 		return
@@ -68,7 +70,6 @@ func (s *GetJSONedHandler) ServeHTTP(res http.ResponseWriter, req *http.Request)
 		return
 	}
 
-	res.Header().Add(contentTypeKey, JSONContentTypeValue)
 	res.WriteHeader(http.StatusOK)
 }
 

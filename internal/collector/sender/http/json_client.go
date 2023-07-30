@@ -37,7 +37,6 @@ func (c *jsonClient) UpdateGauge(gauge metric.Gauge) error {
 		MType: string(metric.TypeGauge),
 		Value: &val,
 	}
-
 	buf, err := json.Marshal(req)
 	if err != nil {
 		return err
@@ -74,5 +73,5 @@ func (c *jsonClient) UpdateCounter(counter metric.Counter) error {
 }
 
 func (c *jsonClient) getURL() string {
-	return fmt.Sprintf("%s/update", c.base)
+	return fmt.Sprintf("%s/update/", c.base)
 }

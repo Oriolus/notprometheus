@@ -5,6 +5,6 @@ const (
 	URLParamName       = "name"
 	URLParamValue      = "value"
 
-	contentTypeKey       = "content-type"
+	contentTypeKey       = "Content-Type"
 	JSONContentTypeValue = "application/json"
 )
