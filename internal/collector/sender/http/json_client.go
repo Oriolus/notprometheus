@@ -22,7 +22,7 @@ type jsonClient struct {
 	base   string
 }
 
-func NewJsonClient(base string) (sender.MetricSender, error) {
+func NewJSONClient(base string) (sender.MetricSender, error) {
 	if base == "" {
 		return nil, sender.ErrStringIsEmpty
 	}

@@ -21,7 +21,7 @@ func main() {
 		url += "/" + cfg.base
 	}
 
-	client, err := http.NewJsonClient(url)
+	client, err := http.NewJSONClient(url)
 	if err != nil {
 		fmt.Println(err)
 		return

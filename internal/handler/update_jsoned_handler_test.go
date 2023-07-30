@@ -55,7 +55,8 @@ func TestValidate(t *testing.T) {
 		{"validate; valid counter; should return no error", models.UpdateMetricRequest{MType: string(metric.TypeCounter), Delta: getIntPointer()}, nil},
 	}
 
-	for _, testCase := range testCases {
+	for i := range testCases {
+		testCase := testCases[i]
 		t.Run(testCase.name, func(t *testing.T) {
 			// arrange
 			t.Parallel()
