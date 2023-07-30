@@ -6,7 +6,7 @@ import (
 
 	"go.uber.org/zap"
 
-	"github.com/oriolus/notprometheus/internal/logging"
+	"github.com/oriolus/notprometheus/internal/logger"
 )
 
 type (
@@ -50,7 +50,7 @@ func WithLogging(h http.Handler) http.Handler {
 		h.ServeHTTP(&lw, r)
 
 		duration := time.Since(start)
-		logging.Logger.Info("[request/response logger]",
+		logger.Logger.Info("[request/response logger]",
 			zap.String("uri", uri),
 			zap.String("method", method),
 			zap.Duration("duration", duration),

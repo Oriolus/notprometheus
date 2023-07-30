@@ -92,12 +92,12 @@ func TestJSONedHandler(t *testing.T) {
 		{"/update/", http.MethodPost, "multipart/form-data", []byte("{}"), "", http.StatusBadRequest},
 		{"/update/", http.MethodPost, "application/json", []byte{1}, "", http.StatusBadRequest},
 		{"/update/", http.MethodPost, "application/json", []byte(`{"id":"124","type":"counter"}`), "", http.StatusBadRequest},
-		{"/update/", http.MethodPost, "application/json", []byte(`{"id":"counter_json_1","type":"counter","delta":21}`), `{"id":"counter_json_1","type":"counter","value":21}`, http.StatusOK},
+		{"/update/", http.MethodPost, "application/json", []byte(`{"id":"counter_json_1","type":"counter","delta":21}`), `{"id":"counter_json_1","type":"counter","delta":21}`, http.StatusOK},
 		{"/update/", http.MethodPost, "application/json", []byte(`{"id":"gauge_json_1","type":"gauge","value":2.22}`), `{"id":"gauge_json_1","type":"gauge","value":2.22}`, http.StatusOK},
 		{"/value/", http.MethodPost, "multipart/form-data", []byte(`{}`), "", http.StatusBadRequest},
 		{"/value/", http.MethodPost, "application/json", []byte{1}, "", http.StatusBadRequest},
 		{"/value/", http.MethodPost, "application/json", []byte(`{"id":1,"type":"cnt"}`), "", http.StatusBadRequest},
-		{"/value/", http.MethodPost, "application/json", []byte(`{"id":"counter_json_1","type":"counter"}`), `{"id":"counter_json_1","type":"counter","value":21}`, http.StatusOK},
+		{"/value/", http.MethodPost, "application/json", []byte(`{"id":"counter_json_1","type":"counter"}`), `{"id":"counter_json_1","type":"counter","delta":21}`, http.StatusOK},
 		{"/value/", http.MethodPost, "application/json", []byte(`{"id":"gauge_json_1","type":"gauge"}`), `{"id":"gauge_json_1","type":"gauge","value":2.22}`, http.StatusOK},
 	}
 

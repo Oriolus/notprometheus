@@ -79,8 +79,7 @@ func isMetricTypeValid(metricType string) bool {
 }
 
 func (s *GetJSONedHandler) handle(req models.GetMetricRequest) (*models.GetMetricResponse, error) {
-	metricType := metric.Type(req.MType)
-	switch metricType {
+	switch metric.Type(req.MType) {
 	case metric.TypeCounter:
 		{
 			c, err := s.server.Storage().GetCounter(req.ID)
@@ -88,10 +87,11 @@ func (s *GetJSONedHandler) handle(req models.GetMetricRequest) (*models.GetMetri
 				return nil, err
 			}
 
+			delta := c.Value()
 			return &models.GetMetricResponse{
 				ID:    c.Name(),
 				MType: req.MType,
-				Value: float64(c.Value()),
+				Delta: &delta,
 			}, nil
 		}
 	case metric.TypeGauge:
@@ -101,10 +101,11 @@ func (s *GetJSONedHandler) handle(req models.GetMetricRequest) (*models.GetMetri
 				return nil, err
 			}
 
+			val := g.Value()
 			return &models.GetMetricResponse{
 				ID:    g.Name(),
 				MType: req.MType,
-				Value: g.Value(),
+				Value: &val,
 			}, nil
 		}
 	default:

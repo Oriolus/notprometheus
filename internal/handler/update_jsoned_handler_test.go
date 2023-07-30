@@ -90,7 +90,7 @@ func TestHandle(t *testing.T) {
 		expectedResp := &models.UpdateMetricResponse{
 			ID:    req.ID,
 			MType: req.MType,
-			Value: float64(delta),
+			Delta: &delta,
 		}
 
 		// act
@@ -122,10 +122,11 @@ func TestHandle(t *testing.T) {
 			MType: string(metric.TypeCounter),
 			Delta: &delta,
 		}
+		res := seed + delta
 		expectedResp := &models.UpdateMetricResponse{
 			ID:    cnt.Name(),
 			MType: req.MType,
-			Value: float64(seed + delta),
+			Delta: &res,
 		}
 		expectedErr := error(nil)
 
@@ -154,7 +155,7 @@ func TestHandle(t *testing.T) {
 		expectedResp := &models.UpdateMetricResponse{
 			ID:    req.ID,
 			MType: req.MType,
-			Value: *req.Value,
+			Value: req.Value,
 		}
 		expectedErr := error(nil)
 
@@ -190,7 +191,7 @@ func TestHandle(t *testing.T) {
 		expectedResp := &models.UpdateMetricResponse{
 			ID:    req.ID,
 			MType: req.MType,
-			Value: newValue,
+			Value: &newValue,
 		}
 		expectedErr := error(nil)
 

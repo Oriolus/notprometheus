@@ -96,10 +96,11 @@ func (s *UpdateJSONedHandler) handle(req models.UpdateMetricRequest) (*models.Up
 				return nil, err
 			}
 
+			val := c.Value()
 			return &models.UpdateMetricResponse{
 				ID:    c.Name(),
 				MType: req.MType,
-				Value: float64(c.Value()),
+				Delta: &val,
 			}, nil
 		}
 	case metric.TypeGauge:
@@ -109,10 +110,11 @@ func (s *UpdateJSONedHandler) handle(req models.UpdateMetricRequest) (*models.Up
 				return nil, err
 			}
 
+			val := g.Value()
 			return &models.UpdateMetricResponse{
 				ID:    g.Name(),
 				MType: req.MType,
-				Value: g.Value(),
+				Value: &val,
 			}, nil
 		}
 	default:
