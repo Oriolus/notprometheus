@@ -7,7 +7,7 @@ import (
 	"github.com/oriolus/notprometheus/internal/metric"
 )
 
-const ClientTimeout = 300 * time.Millisecond
+const ClientTimeout = 1 * time.Second
 
 var (
 	ErrStringIsEmpty = errors.New("string argument is empty")

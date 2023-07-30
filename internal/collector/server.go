@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/oriolus/notprometheus/internal/collector/sender"
+	"github.com/oriolus/notprometheus/internal/logging"
 	"github.com/oriolus/notprometheus/internal/metric"
 )
 
@@ -24,7 +25,7 @@ func NewServer(client sender.MetricSender, pollInterval, reportInterval time.Dur
 		return nil, ErrArgumentNil
 	}
 
-	pollCount, err := metric.NewCounter("poolCount")
+	pollCount, err := metric.NewCounter("PoolCount")
 	if err != nil {
 		return nil, err
 	}
@@ -184,12 +185,13 @@ func (s *Server) send() {
 	for _, g := range s.gauges {
 		err = s.client.UpdateGauge(g)
 		if err != nil {
-			fmt.Printf("metric %s was not updated due %s", g.Name(), err.Error())
+			logging.Logger.Error(fmt.Sprintf("metric %s was not updated due %s", g.Name(), err.Error()))
 		}
 	}
 
 	err = s.client.UpdateCounter(s.pollCount)
 	if err != nil {
-		fmt.Printf("metric %s was not updated due %s", s.pollCount.Name(), err.Error())
+		logging.Logger.Error(fmt.Sprintf("metric %s was not updated due %s", s.pollCount.Name(), err.Error()))
 	}
+	s.pollCount, _ = metric.NewCounterWithValue("PoolCount", 0)
 }
