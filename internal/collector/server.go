@@ -182,12 +182,12 @@ func (s *Server) processMetrics() error {
 
 func (s *Server) send() {
 	var err error
-	//for _, g := range s.gauges {
-	//	err = s.client.UpdateGauge(g)
-	//	if err != nil {
-	//		logger.Errorf("metric %s was not updated due %s", g.Name(), err.Error())
-	//	}
-	//}
+	for _, g := range s.gauges {
+		err = s.client.UpdateGauge(g)
+		if err != nil {
+			logger.Errorf("metric %s was not updated due %s", g.Name(), err.Error())
+		}
+	}
 
 	err = s.client.UpdateCounter(s.pollCount)
 	if err != nil {
