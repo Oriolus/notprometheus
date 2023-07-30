@@ -60,115 +60,115 @@ func (s *Server) processMetrics() error {
 
 	gauges := make([]metric.Gauge, 0)
 
-	alloc, err := metric.NewGauge("memstat:Alloc", float64(memStat.Alloc))
+	alloc, err := metric.NewGauge("Alloc", float64(memStat.Alloc))
 	if err == nil {
 		gauges = append(gauges, alloc)
 	}
-	backHashSys, err := metric.NewGauge("memstat:BuckHashSys", float64(memStat.BuckHashSys))
+	backHashSys, err := metric.NewGauge("BuckHashSys", float64(memStat.BuckHashSys))
 	if err == nil {
 		gauges = append(gauges, backHashSys)
 	}
-	frees, err := metric.NewGauge("memstat:Frees", float64(memStat.Frees))
+	frees, err := metric.NewGauge("Frees", float64(memStat.Frees))
 	if err == nil {
 		gauges = append(gauges, frees)
 	}
-	gCCpuFraction, err := metric.NewGauge("memestat:GCCPUFraction", memStat.GCCPUFraction)
+	gCCpuFraction, err := metric.NewGauge("GCCPUFraction", memStat.GCCPUFraction)
 	if err == nil {
 		gauges = append(gauges, gCCpuFraction)
 	}
-	gCSys, err := metric.NewGauge("memStat:GCSys", float64(memStat.GCSys))
+	gCSys, err := metric.NewGauge("GCSys", float64(memStat.GCSys))
 	if err == nil {
 		gauges = append(gauges, gCSys)
 	}
-	heapAlloc, err := metric.NewGauge("memStat:HeapAlloc", float64(memStat.HeapAlloc))
+	heapAlloc, err := metric.NewGauge("HeapAlloc", float64(memStat.HeapAlloc))
 	if err == nil {
 		gauges = append(gauges, heapAlloc)
 	}
-	heapIdle, err := metric.NewGauge("memStat:HeapIdle", float64(memStat.HeapIdle))
+	heapIdle, err := metric.NewGauge("HeapIdle", float64(memStat.HeapIdle))
 	if err == nil {
 		gauges = append(gauges, heapIdle)
 	}
-	heapInuse, err := metric.NewGauge("memStat:HeapInuse", float64(memStat.HeapInuse))
+	heapInuse, err := metric.NewGauge("HeapInuse", float64(memStat.HeapInuse))
 	if err == nil {
 		gauges = append(gauges, heapInuse)
 	}
-	heapObjects, err := metric.NewGauge("memStat:HeapObjects", float64(memStat.HeapObjects))
+	heapObjects, err := metric.NewGauge("HeapObjects", float64(memStat.HeapObjects))
 	if err == nil {
 		gauges = append(gauges, heapObjects)
 	}
-	heapReleased, err := metric.NewGauge("memStat:HeapReleased", float64(memStat.HeapReleased))
+	heapReleased, err := metric.NewGauge("HeapReleased", float64(memStat.HeapReleased))
 	if err == nil {
 		gauges = append(gauges, heapReleased)
 	}
-	heapSys, err := metric.NewGauge("memStat:HeapSys", float64(memStat.HeapSys))
+	heapSys, err := metric.NewGauge("HeapSys", float64(memStat.HeapSys))
 	if err == nil {
 		gauges = append(gauges, heapSys)
 	}
-	lastGC, err := metric.NewGauge("memStat:LastGC", float64(memStat.LastGC))
+	lastGC, err := metric.NewGauge("LastGC", float64(memStat.LastGC))
 	if err == nil {
 		gauges = append(gauges, lastGC)
 	}
-	lookups, err := metric.NewGauge("memStat:Lookups", float64(memStat.Lookups))
+	lookups, err := metric.NewGauge("Lookups", float64(memStat.Lookups))
 	if err == nil {
 		gauges = append(gauges, lookups)
 	}
-	mCacheInuse, err := metric.NewGauge("memStat:MCacheInuse", float64(memStat.MCacheInuse))
+	mCacheInuse, err := metric.NewGauge("MCacheInuse", float64(memStat.MCacheInuse))
 	if err == nil {
 		gauges = append(gauges, mCacheInuse)
 	}
-	mCacheSys, err := metric.NewGauge("memStat:MCacheSys", float64(memStat.MCacheSys))
+	mCacheSys, err := metric.NewGauge("MCacheSys", float64(memStat.MCacheSys))
 	if err == nil {
 		gauges = append(gauges, mCacheSys)
 	}
-	mSpanInuse, err := metric.NewGauge("memStat:MSpanInuse", float64(memStat.MSpanInuse))
+	mSpanInuse, err := metric.NewGauge("MSpanInuse", float64(memStat.MSpanInuse))
 	if err == nil {
 		gauges = append(gauges, mSpanInuse)
 	}
-	mSpanSys, err := metric.NewGauge("memStat:MSpanSys", float64(memStat.MSpanSys))
+	mSpanSys, err := metric.NewGauge("MSpanSys", float64(memStat.MSpanSys))
 	if err == nil {
 		gauges = append(gauges, mSpanSys)
 	}
-	mallocs, err := metric.NewGauge("memStat:Mallocs", float64(memStat.Mallocs))
+	mallocs, err := metric.NewGauge("Mallocs", float64(memStat.Mallocs))
 	if err == nil {
 		gauges = append(gauges, mallocs)
 	}
-	nextGC, err := metric.NewGauge("memStat:NextGC", float64(memStat.NextGC))
+	nextGC, err := metric.NewGauge("NextGC", float64(memStat.NextGC))
 	if err == nil {
 		gauges = append(gauges, nextGC)
 	}
-	numForcedGC, err := metric.NewGauge("memStat:NumForcedGC", float64(memStat.NumForcedGC))
+	numForcedGC, err := metric.NewGauge("NumForcedGC", float64(memStat.NumForcedGC))
 	if err == nil {
 		gauges = append(gauges, numForcedGC)
 	}
-	numGC, err := metric.NewGauge("memStat:NumGC", float64(memStat.NumGC))
+	numGC, err := metric.NewGauge("NumGC", float64(memStat.NumGC))
 	if err == nil {
 		gauges = append(gauges, numGC)
 	}
-	otherSys, err := metric.NewGauge("memStat:OtherSys", float64(memStat.OtherSys))
+	otherSys, err := metric.NewGauge("OtherSys", float64(memStat.OtherSys))
 	if err == nil {
 		gauges = append(gauges, otherSys)
 	}
-	pauseTotalNs, err := metric.NewGauge("memStat:PauseTotalNs", float64(memStat.PauseTotalNs))
+	pauseTotalNs, err := metric.NewGauge("PauseTotalNs", float64(memStat.PauseTotalNs))
 	if err == nil {
 		gauges = append(gauges, pauseTotalNs)
 	}
-	stackInuse, err := metric.NewGauge("memStat:StackInuse", float64(memStat.StackInuse))
+	stackInuse, err := metric.NewGauge("StackInuse", float64(memStat.StackInuse))
 	if err == nil {
 		gauges = append(gauges, stackInuse)
 	}
-	stackSys, err := metric.NewGauge("memStat:StackSys", float64(memStat.StackSys))
+	stackSys, err := metric.NewGauge("StackSys", float64(memStat.StackSys))
 	if err == nil {
 		gauges = append(gauges, stackSys)
 	}
-	sys, err := metric.NewGauge("memStat:Sys", float64(memStat.Sys))
+	sys, err := metric.NewGauge("Sys", float64(memStat.Sys))
 	if err == nil {
 		gauges = append(gauges, sys)
 	}
-	totalAlloc, err := metric.NewGauge("memStat:TotalAlloc", float64(memStat.TotalAlloc))
+	totalAlloc, err := metric.NewGauge("TotalAlloc", float64(memStat.TotalAlloc))
 	if err == nil {
 		gauges = append(gauges, totalAlloc)
 	}
-	random, err := metric.NewGauge("random", rand.Float64())
+	random, err := metric.NewGauge("RandomValue", rand.Float64())
 	if err == nil {
 		gauges = append(gauges, random)
 	}
