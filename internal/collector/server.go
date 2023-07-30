@@ -7,19 +7,19 @@ import (
 	"runtime"
 	"time"
 
-	"github.com/oriolus/notprometheus/internal/collector/sender/http"
+	"github.com/oriolus/notprometheus/internal/collector/sender"
 	"github.com/oriolus/notprometheus/internal/metric"
 )
 
 type Server struct {
-	client         *http.Client
+	client         sender.MetricSender
 	pollCount      metric.Counter
 	gauges         []metric.Gauge
 	pollInterval   time.Duration
 	reportInterval time.Duration
 }
 
-func NewServer(client *http.Client, pollInterval, reportInterval time.Duration) (*Server, error) {
+func NewServer(client sender.MetricSender, pollInterval, reportInterval time.Duration) (*Server, error) {
 	if client == nil {
 		return nil, ErrArgumentNil
 	}

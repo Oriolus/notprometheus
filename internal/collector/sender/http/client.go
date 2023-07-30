@@ -3,29 +3,26 @@ package http
 import (
 	"fmt"
 	"net/http"
-	"time"
 
 	"github.com/oriolus/notprometheus/internal/collector/sender"
 	"github.com/oriolus/notprometheus/internal/metric"
 )
 
-var _ sender.MetricSender = (*Client)(nil)
+var _ sender.MetricSender = (*client)(nil)
 
-const clientTimeout = 300 * time.Millisecond
-
-type Client struct {
+type client struct {
 	client http.Client
 	base   string
 }
 
-func NewClient(base string) (*Client, error) {
+func NewClient(base string) (sender.MetricSender, error) {
 	if base == "" {
 		return nil, sender.ErrStringIsEmpty
 	}
-	return &Client{client: http.Client{Timeout: clientTimeout}, base: base}, nil
+	return &client{client: http.Client{Timeout: sender.ClientTimeout}, base: base}, nil
 }
 
-func (c *Client) UpdateGauge(gauge metric.Gauge) error {
+func (c *client) UpdateGauge(gauge metric.Gauge) error {
 	url := c.getURL(metric.TypeGauge, gauge.Name(), fmt.Sprintf("%f", gauge.Value()))
 	resp, err := c.client.Post(url, "text/plain", nil)
 	if err != nil {
@@ -35,7 +32,7 @@ func (c *Client) UpdateGauge(gauge metric.Gauge) error {
 	return nil
 }
 
-func (c *Client) UpdateCounter(counter metric.Counter) error {
+func (c *client) UpdateCounter(counter metric.Counter) error {
 	url := c.getURL(metric.TypeCounter, counter.Name(), fmt.Sprintf("%d", counter.Value()))
 	resp, err := c.client.Post(url, "text/plain", nil)
 	if err != nil {
@@ -45,6 +42,6 @@ func (c *Client) UpdateCounter(counter metric.Counter) error {
 	return nil
 }
 
-func (c *Client) getURL(metricType metric.Type, name, value string) string {
+func (c *client) getURL(metricType metric.Type, name, value string) string {
 	return fmt.Sprintf("%s/update/%s/%s/%s", c.base, string(metricType), name, value)
 }
