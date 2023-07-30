@@ -25,7 +25,7 @@ func NewServer(client sender.MetricSender, pollInterval, reportInterval time.Dur
 		return nil, ErrArgumentNil
 	}
 
-	pollCount, err := metric.NewCounter("PoolCount")
+	pollCount, err := metric.NewCounter("PollCount")
 	if err != nil {
 		return nil, err
 	}
